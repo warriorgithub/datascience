@@ -14,4 +14,4 @@ Currently I'm working on World startup dataset. Where I'm trying to find the <br
 **what kind or startup a one should target to get / invest fund** <br/>
 
 
-I've attached the dataset also named : **requiredata.xlsx** under DataAcquisitionMerging folder
+I've attached the dataset also named : **startup_funding.csv** under DataAcquisitionMerging folder
