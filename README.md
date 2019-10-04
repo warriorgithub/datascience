@@ -9,7 +9,7 @@ I'll be adding my kernals here about different problems/solutions.
 
 <br/>
 
-Currently I'm working on World startup dataset. Where I'm trying to find the <br/><br/>
+Currently I'm working on startup dataset. Where I'm trying to find the <br/><br/>
 **trends of funding** <br/>
 **what feature has major role** <br/>
 **what kind or startup a one should target to get / invest fund** <br/>
