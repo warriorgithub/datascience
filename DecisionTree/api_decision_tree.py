@@ -1,23 +1,26 @@
 import pandas as pd
 from flask import Flask, request, render_template, jsonify
-
+from flask_cors import CORS, cross_origin
 import data_controller as dc
 from models import Questions, Decision_Node, Leaf, QuestionPreserve
 
 qp = QuestionPreserve(None, None)
-wehealth_tranining = pd.read_excel('wehealth.xlsx')
+wehealth_tranining = pd.read_excel('wehealth_testing.xlsx')
 
 user_input = [None] * 4
 
 
 def get_question_response(rows):
+
     gain, question = find_best_split(rows)
     if gain == 0:
         print ("Predicted: %s" %(dc.print_leaf(classify(user_input, my_tree))))
-        return classify(user_input, my_tree)
+        answer = dc.print_leaf(classify(user_input, my_tree))
+        #return classify(user_input, my_tree)
+        return None, answer.keys()[0]
 
     qp.question = question
-    return question
+    return question, None
 
 
 def user_interaction(val=None, question=None, rows=None):
@@ -117,7 +120,6 @@ def classify(row, node):
     # Decide whether to follow the true-branch or the false-branch.
     # Compare the feature / value stored in the node,
     # to the example we're considering.
-    print(row[1])
     if node.question.matchs(row):
         # print("row . ",row )
 
@@ -127,19 +129,20 @@ def classify(row, node):
 
 
 app = Flask(__name__)
-
+CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route("/")
 def home():
     return render_template("chat_template.html")
 
-
+@cross_origin()
 @app.route("/get_question", methods=['GET'])
 def index():
     res = request.args.get('msg')
-    question = user_interaction(val=res, rows=wehealth_tranining)
-    print question
-    return jsonify({'question': question.__repr__()})
+    question, answer = user_interaction(val=res, rows=wehealth_tranining)
+    print({'question': question.__repr__(),'answer':answer})
+    return jsonify({'question': question.__repr__(),'answer':answer})
 
 
 if __name__ == '__main__':
